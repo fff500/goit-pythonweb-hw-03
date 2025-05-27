@@ -55,15 +55,12 @@ class HttpHandler(BaseHTTPRequestHandler):
 
     def send_messages(self):
         env = Environment(loader=FileSystemLoader('templates'))
-
         template = env.get_template("messages.html")
         with open("storage/data.json", "r", encoding="utf-8") as file:
             messages = json.load(file)
         output = template.render(messages=messages)
-
         with open("read.html", "w", encoding='utf-8') as fh:
             fh.write(output)
-
         self.send_html_file('read.html')
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
